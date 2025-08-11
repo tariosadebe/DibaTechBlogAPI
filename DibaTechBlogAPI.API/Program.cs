@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 using DibaTechBlogAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +16,39 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseInMemoryDatabase("DibaTechBlogDb"));
 
+// JWT Authentication configuration
+var jwtKey = "SuperSecretKeyForJwtTokenGeneration123!";
+var jwtIssuer = "DibaTechBlogAPI";
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey))
+    };
+});
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var summaries = new[]
 {
