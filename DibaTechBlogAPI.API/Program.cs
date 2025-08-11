@@ -1,8 +1,17 @@
+
+using DibaTechBlogAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+// Register BlogDbContext with InMemory provider
+builder.Services.AddDbContext<BlogDbContext>(options =>
+    options.UseInMemoryDatabase("DibaTechBlogDb"));
 
 var app = builder.Build();
 
