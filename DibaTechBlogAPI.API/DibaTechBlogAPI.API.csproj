@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DibaTechBlogAPI.Application\DibaTechBlogAPI.Application.csproj" />
+    <ProjectReference Include="..\DibaTechBlogAPI.Infrastructure\DibaTechBlogAPI.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
