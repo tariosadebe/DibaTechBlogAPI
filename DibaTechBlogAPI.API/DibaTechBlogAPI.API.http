@@ -1,6 +1,0 @@
-@DibaTechBlogAPI.API_HostAddress = http://localhost:5160
-
-GET {{DibaTechBlogAPI.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

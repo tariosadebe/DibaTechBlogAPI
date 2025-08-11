@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DibaTechBlogAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f74a1a25ad1c2a46bee2d5293ed45a847115777a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a503619bd51141807000387645e518cc37a678e3")]
 [assembly: System.Reflection.AssemblyProductAttribute("DibaTechBlogAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DibaTechBlogAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
