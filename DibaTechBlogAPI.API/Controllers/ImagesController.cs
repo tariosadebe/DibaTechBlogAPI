@@ -19,12 +19,12 @@ namespace DibaTechBlogAPI.API.Controllers
             _env = env;
         }
 
-        [HttpPost("upload/{postId}")]
-        public async Task<IActionResult> Upload(int postId, IFormFile file)
+        [HttpPost("upload")]
+        public async Task<IActionResult> Upload([FromForm] int postId, [FromForm] IFormFile file)
         {
-            var post = await _context.Posts.FindAsync(postId);
-            if (post == null) return NotFound();
-            if (file == null || file.Length == 0) return BadRequest("No file uploaded.");
+            var post = await _context.Posts.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == postId);
+            if (post == null) return NotFound("Post not found");
+            if (file == null || file.Length == 0) return BadRequest("No file uploaded");
 
             var uploads = Path.Combine(_env.ContentRootPath, "uploads");
             if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
@@ -35,17 +35,9 @@ namespace DibaTechBlogAPI.API.Controllers
                 await file.CopyToAsync(stream);
             }
             var image = new Image { Url = $"/uploads/{fileName}", PostId = postId };
-            _context.Images.Add(image);
+            post.Images.Add(image);
             await _context.SaveChangesAsync();
             return Ok(image);
-        }
-
-        [HttpGet("{postId}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetImages(int postId)
-        {
-            var images = await _context.Images.Where(i => i.PostId == postId).ToListAsync();
-            return Ok(images);
         }
     }
 }
