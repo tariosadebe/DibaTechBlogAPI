@@ -12,9 +12,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 // Register BlogDbContext with InMemory provider
 builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseInMemoryDatabase("DibaTechBlogDb"));
+
+// Register Identity
+builder.Services.AddIdentityCore<DibaTechBlogAPI.Infrastructure.Data.AppUser>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8;
+})
+    .AddRoles<Microsoft.AspNetCore.Identity.IdentityRole>()
+    .AddEntityFrameworkStores<BlogDbContext>();
 
 // JWT Authentication configuration
 var jwtKey = "SuperSecretKeyForJwtTokenGeneration123!";
