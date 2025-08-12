@@ -1,3 +1,5 @@
+# Ignore Visual Studio .vs folder
+.vs/
 # .NET
 bin/
 obj/
@@ -7,7 +9,6 @@ obj/
 *.sln.docstates
 *.dbmdl
 *.log
-*.vs/
 TestResults/
 *.ncrunch*
 *.vshost.*
