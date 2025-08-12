@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DibaTechBlogAPI.API.Controllers
 {
+    /// <summary>
+    /// Analytics endpoints. Requires JWT Bearer token. In Swagger UI, click 'Authorize' and enter: Bearer {your_token}
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]

@@ -20,21 +20,21 @@ namespace DibaTechBlogAPI.API.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload([FromForm] int postId, [FromForm] IFormFile file)
+        public async Task<IActionResult> Upload([FromForm] DibaTechBlogAPI.API.Models.ImageUploadRequest request)
         {
-            var post = await _context.Posts.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == postId);
+            var post = await _context.Posts.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == request.PostId);
             if (post == null) return NotFound("Post not found");
-            if (file == null || file.Length == 0) return BadRequest("No file uploaded");
+            if (request.File == null || request.File.Length == 0) return BadRequest("No file uploaded");
 
             var uploads = Path.Combine(_env.ContentRootPath, "uploads");
             if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var fileName = Guid.NewGuid() + Path.GetExtension(request.File.FileName);
             var filePath = Path.Combine(uploads, fileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await request.File.CopyToAsync(stream);
             }
-            var image = new Image { Url = $"/uploads/{fileName}", PostId = postId };
+            var image = new Image { Url = $"/uploads/{fileName}", PostId = request.PostId };
             post.Images.Add(image);
             await _context.SaveChangesAsync();
             return Ok(image);
